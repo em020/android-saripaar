@@ -765,7 +765,7 @@ public class Validator {
     private void triggerValidationListenerCallback(final ValidationReport validationReport) {
         final List<ValidationError> validationErrors = validationReport.errors;
 
-        if (validationErrors.size() == 0 && !validationReport.hasMoreErrors) {
+        if (validationErrors.size() == 0 /*&& !validationReport.hasMoreErrors*/) {
             mValidationListener.onValidationSucceeded();
         } else {
             mValidationListener.onValidationFailed(validationErrors);
