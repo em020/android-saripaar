@@ -24,9 +24,11 @@ import android.os.Looper;
 import android.util.Pair;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.adapter.CheckBoxBooleanAdapter;
 import com.mobsandgeeks.saripaar.adapter.RadioButtonBooleanAdapter;
@@ -466,6 +468,21 @@ public class Validator {
             createRulesSafelyAndLazily(false);
         }
         mViewRulesMap.remove(view);
+    }
+
+    public static void defaultOnValidationFailed(Context context, List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            /*String message = error.getCollatedErrorMessage(this);*/
+            String message = error.getFailedRules().get(0).getMessage(context);
+
+            // Display error messages ;)
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     static boolean isSaripaarAnnotation(final Class<? extends Annotation> annotation) {
